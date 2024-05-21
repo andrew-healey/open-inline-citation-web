@@ -81,7 +81,7 @@ const config = JSON.parse(fs.readFileSync(CONFIG_FILE).toString());
 
 const ENV_TARGETS = [
   "last 2 versions",
-  "Chrome >= 98",
+  "Chrome >= 88",
   "Firefox ESR",
   "Safari >= 16.4",
   "Node >= 18",
@@ -99,7 +99,6 @@ const BABEL_TARGETS = ENV_TARGETS.join(", ");
 
 const BABEL_PRESET_ENV_OPTS = Object.freeze({
   corejs: "3.37.1",
-  exclude: ["web.structured-clone"],
   shippedProposals: true,
   useBuiltIns: "usage",
 });
