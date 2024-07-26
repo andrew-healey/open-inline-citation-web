@@ -221,6 +221,8 @@ if (
   document.addEventListener("DOMContentLoaded", webViewerLoad, true);
 }
 
+import "./openInlineCitation.js"
+
 export {
   PDFViewerApplication,
   AppConstants as PDFViewerApplicationConstants,

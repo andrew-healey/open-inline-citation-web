@@ -37,7 +37,7 @@ if (typeof PDFJSDev === "undefined" || !PDFJSDev.test("CHROME")) {
   const humanReadableUrl = "/" + defaultUrl + location.hash;
   history.replaceState(history.state, "", humanReadableUrl);
   if (top === window) {
-    chrome.runtime.sendMessage("showPageAction");
+    chrome.runtime?.sendMessage("showPageAction");
   }
 
   AppOptions.set("defaultUrl", defaultUrl);
@@ -287,7 +287,11 @@ function setReferer(url, callback) {
   if (!port) {
     // The background page will accept the port, and keep adding the Referer
     // request header to requests to |url| until the port is disconnected.
-    port = chrome.runtime.connect({ name: "chromecom-referrer" });
+    port = chrome.runtime?.connect({ name: "chromecom-referrer" });
+  }
+  if (!port) {
+    callback();
+    return;
   }
   port.onDisconnect.addListener(onDisconnect);
   port.onMessage.addListener(onMessage);
@@ -325,7 +329,7 @@ function setReferer(url, callback) {
 // chrome.storage.sync is not supported in every Chromium-derivate.
 // Note: The background page takes care of migrating values from
 // chrome.storage.local to chrome.storage.sync when needed.
-const storageArea = chrome.storage.sync || chrome.storage.local;
+const storageArea = chrome.storage?.sync || chrome.storage?.local;
 
 class Preferences extends BasePreferences {
   async _writeToStorage(prefObj) {
@@ -348,16 +352,19 @@ class Preferences extends BasePreferences {
   async _readFromStorage(prefObj) {
     return new Promise(resolve => {
       const getPreferences = defaultPrefs => {
-        if (chrome.runtime.lastError) {
+        if (chrome.runtime?.lastError || storageArea === undefined) {
           // Managed storage not supported, e.g. in Opera.
           defaultPrefs = this.defaults;
         }
-        storageArea.get(defaultPrefs, function (readPrefs) {
-          resolve({ prefs: readPrefs });
-        });
+        if (storageArea === undefined) {
+          resolve({ prefs: defaultPrefs });
+        } else
+          storageArea?.get(defaultPrefs, function (readPrefs) {
+            resolve({ prefs: readPrefs });
+          });
       };
 
-      if (chrome.storage.managed) {
+      if (chrome.storage?.managed) {
         // Get preferences as set by the system administrator.
         // See extensions/chromium/preferences_schema.json for more information.
         // These preferences can be overridden by the user.

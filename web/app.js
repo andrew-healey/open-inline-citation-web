@@ -201,6 +201,7 @@ const PDFViewerApplication = {
     try {
       await this.preferences.initializedPromise;
     } catch (ex) {
+      throw ex;
       console.error(`initialize: "${ex.message}".`);
     }
     if (AppOptions.get("pdfBugEnabled")) {
