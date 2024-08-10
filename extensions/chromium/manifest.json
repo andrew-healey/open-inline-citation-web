@@ -1,9 +1,9 @@
 {
   "minimum_chrome_version": "88",
   "manifest_version": 2,
-  "name": "Open Inline Citation",
+  "name": "Open inline PDF citations",
   "version": "PDFJSSCRIPT_VERSION",
-  "description": "Uses HTML5 to display PDF files directly in the browser.",
+  "description": "CTRL/CMD + click on a PDF inline citation to open it in a new tab",
   "icons": {
     "128": "icon128.png",
     "48": "icon48.png",
